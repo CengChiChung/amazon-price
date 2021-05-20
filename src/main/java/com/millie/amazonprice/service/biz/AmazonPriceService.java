@@ -1,6 +1,5 @@
 package com.millie.amazonprice.service.biz;
 
-import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.millie.amazonprice.base.BooleanStatus;
 import com.millie.amazonprice.dto.CommissionDto;
@@ -10,18 +9,17 @@ import com.millie.amazonprice.po.SizePo;
 import com.millie.amazonprice.service.CommissionService;
 import com.millie.amazonprice.service.SizeService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.zip.GZIPOutputStream;
 
 @Slf4j
 @Service
@@ -41,7 +39,7 @@ public class AmazonPriceService {
         QueryWrapper<CommissionPo> wrapper = new QueryWrapper<>();
         wrapper.eq(CommissionPo.CATEGORY_CODE, categoryCode);
         List<CommissionPo> commissionPoList = commissionService.list(wrapper);
-        if (CollectionUtil.isEmpty(commissionPoList)) {
+        if (CollectionUtils.isEmpty(commissionPoList)) {
             throw new Exception("Error");
         }
 
@@ -120,7 +118,7 @@ public class AmazonPriceService {
     }
 
     /**
-     * 确定商品的尺寸标准
+     * 确定商品的尺寸标准.
      */
     public SizePo determineSize(SourceData sourceData) throws Exception {
         BigDecimal skuWeight = sourceData.getSkuWeight();
